@@ -1,10 +1,13 @@
 ﻿var emitter = emitter.connect({
-    secure: true
+    host: "localhost",
+    port: 8080,
+    secure: false
 }); 
-var key = 'LyOL3fhQDfOKyB6PWNkv6vemLSPjP8hf';
+var key = 'KnwDRKWg3Xrhn_3UtTJTXfieIz4BUBDn';
 var vue = new Vue({
     el: '#app',
     data: {
+        currentUser: getPersistentVisitorId(),
         messages: [],
         message: '',
         emoji: [
@@ -25,13 +28,13 @@ var vue = new Vue({
 	        console.log('emitter: publishing');
 	        emitter.publish({
                 key: key,
-                channel: "article1/" + getPersistentVisitorId(),
+                channel: "article1/" + "12345",
                 ttl: 1200,
                 message: JSON.stringify({
                     name: 'test',
                     hash: getPersistentVisitorId(),
                     text: message,
-                    date: new Date()
+                    date: new Date(),
                 })
             });
         },
@@ -47,7 +50,7 @@ emitter.on('connect', function(){
     console.log('emitter: connected');
     emitter.subscribe({
         key: key,
-        channel: "article1",
+        channel: "article1/12345",
         last: 5
     });
 
